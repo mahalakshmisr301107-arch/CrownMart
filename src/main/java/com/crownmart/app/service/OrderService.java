@@ -87,4 +87,12 @@ public class OrderService {
     public List<Order> findAllOrders() {
         return orderDao.findAll();
     }
+
+    /**
+     * Returns orders that include at least one of the given seller's products.
+     * Each order's item list is restricted to just that seller's items.
+     */
+    public List<Order> getSellerOrders(long sellerId) {
+        return orderDao.findBySeller(sellerId);
+    }
 }

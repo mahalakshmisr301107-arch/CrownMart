@@ -15,4 +15,10 @@ public interface OrderDao {
     List<Order> findByBuyer(long buyerId);
 
     List<Order> findAll();
+
+    /**
+     * Returns orders that contain at least one item whose product belongs to the given seller.
+     * Each returned Order includes only the order_items belonging to that seller's products.
+     */
+    List<Order> findBySeller(long sellerId);
 }

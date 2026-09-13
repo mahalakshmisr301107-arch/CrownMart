@@ -145,6 +145,34 @@ public class JdbcOrderDao implements OrderDao {
         }
     }
 
+    @Override
+    public List<Order> findBySeller(long sellerId) {
+        String sql = "SELECT DISTINCT o.id, o.buyer_id, o.status, o.total_amount, o.created_at "
+                + "FROM orders o "
+                + "JOIN order_items oi ON oi.order_id = o.id "
+                + "JOIN products p ON p.id = oi.product_id "
+                + "WHERE p.seller_id = ? "
+                + "ORDER BY o.created_at DESC";
+        try (Connection conn = dataSource.getConnection()) {
+            Map<Long, Order> orders = new LinkedHashMap<>();
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setLong(1, sellerId);
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        Order order = mapOrderRow(rs);
+                        orders.put(order.getId(), order);
+                    }
+                }
+            }
+            for (Order order : orders.values()) {
+                order.setItems(fetchItemsForSeller(conn, order.getId(), sellerId));
+            }
+            return new ArrayList<>(orders.values());
+        } catch (SQLException e) {
+            throw new DataAccessException("Failed to find orders for seller", e);
+        }
+    }
+
     private List<OrderItem> fetchItems(Connection conn, long orderId) throws SQLException {
         String sql = "SELECT oi.id, oi.order_id, oi.product_id, oi.quantity, oi.unit_price, p.name AS product_name "
                 + "FROM order_items oi JOIN products p ON oi.product_id = p.id WHERE oi.order_id = ?";
@@ -153,18 +181,40 @@ public class JdbcOrderDao implements OrderDao {
             ps.setLong(1, orderId);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    OrderItem item = new OrderItem();
-                    item.setId(rs.getLong("id"));
-                    item.setOrderId(rs.getLong("order_id"));
-                    item.setProductId(rs.getLong("product_id"));
-                    item.setQuantity(rs.getInt("quantity"));
-                    item.setUnitPrice(rs.getBigDecimal("unit_price"));
-                    item.setProductName(rs.getString("product_name"));
-                    items.add(item);
+                    items.add(mapOrderItemRow(rs));
                 }
             }
         }
         return items;
+    }
+
+    private List<OrderItem> fetchItemsForSeller(Connection conn, long orderId, long sellerId) throws SQLException {
+        String sql = "SELECT oi.id, oi.order_id, oi.product_id, oi.quantity, oi.unit_price, p.name AS product_name "
+                + "FROM order_items oi JOIN products p ON oi.product_id = p.id "
+                + "WHERE oi.order_id = ? AND p.seller_id = ?";
+        List<OrderItem> items = new ArrayList<>();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setLong(1, orderId);
+            ps.setLong(2, sellerId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    items.add(mapOrderItemRow(rs));
+                }
+            }
+        }
+        return items;
+    }
+
+    private OrderItem mapOrderItemRow(ResultSet rs) throws SQLException {
+        OrderItem item = new OrderItem();
+        item.setId(rs.getLong("id"));
+        item.setOrderId(rs.getLong("order_id"));
+        item.setProductId(rs.getLong("product_id"));
+        item.setQuantity(rs.getInt("quantity"));
+        item.setUnitPrice(rs.getBigDecimal("unit_price"));
+        item.setProductName(rs.getString("product_name"));
+        items_placeholder:
+        return item;
     }
 
     private Order mapOrderRow(ResultSet rs) throws SQLException {
