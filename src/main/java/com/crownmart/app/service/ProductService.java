@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import com.crownmart.app.dao.ProductDao;
 import com.crownmart.app.dto.ProductRequest;
+import com.crownmart.app.exception.BusinessRuleException;
 import com.crownmart.app.exception.ValidationException;
 import com.crownmart.app.model.Product;
 import com.crownmart.app.util.ValidationUtil;
@@ -47,5 +48,45 @@ public class ProductService {
 
     public Optional<Product> findById(long id) {
         return productDao.findById(id);
+    }
+
+    public Product updateListing(long sellerId, long productId, ProductRequest request)
+            throws ValidationException, BusinessRuleException {
+        Product existing = productDao.findById(productId)
+                .orElseThrow(() -> new ValidationException("Product not found"));
+
+        if (existing.getSellerId() != sellerId) {
+            throw new BusinessRuleException("You do not have permission to edit this product");
+        }
+
+        ValidationUtil.requireNonBlank(request.getName(), "Product name");
+        ValidationUtil.requireNonBlank(request.getCategory(), "Category");
+        ValidationUtil.requirePositive(request.getPrice(), "Price");
+        ValidationUtil.requireNonNegative(request.getStockQty(), "Stock quantity");
+
+        existing.setName(request.getName().trim());
+        existing.setDescription(request.getDescription() == null ? "" : request.getDescription().trim());
+        existing.setPrice(request.getPrice());
+        existing.setStockQty(request.getStockQty());
+        existing.setCategory(request.getCategory().trim());
+        existing.setImageUrl(request.getImageUrl() == null ? "" : request.getImageUrl().trim());
+
+        productDao.update(existing);
+        return existing;
+    }
+
+    public void deleteListing(long sellerId, long productId) throws ValidationException, BusinessRuleException {
+        Product existing = productDao.findById(productId)
+                .orElseThrow(() -> new ValidationException("Product not found"));
+
+        if (existing.getSellerId() != sellerId) {
+            throw new BusinessRuleException("You do not have permission to delete this product");
+        }
+
+        if (productDao.hasExistingOrders(productId)) {
+            throw new BusinessRuleException("Cannot delete a product that has existing orders");
+        }
+
+        productDao.delete(productId);
     }
 }

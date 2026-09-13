@@ -131,6 +131,56 @@ public class JdbcProductDao implements ProductDao {
         }
     }
 
+    @Override
+    public boolean update(Product product) {
+        String sql = "UPDATE products SET name = ?, description = ?, price = ?, stock_qty = ?, "
+                + "category = ?, image_url = ? WHERE id = ?";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, product.getName());
+            ps.setString(2, product.getDescription());
+            ps.setBigDecimal(3, product.getPrice());
+            ps.setInt(4, product.getStockQty());
+            ps.setString(5, product.getCategory());
+            ps.setString(6, product.getImageUrl());
+            ps.setLong(7, product.getId());
+            int updated = ps.executeUpdate();
+            return updated > 0;
+        } catch (SQLException e) {
+            throw new DataAccessException("Failed to update product", e);
+        }
+    }
+
+    @Override
+    public boolean delete(long id) {
+        String sql = "DELETE FROM products WHERE id = ?";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setLong(1, id);
+            int deleted = ps.executeUpdate();
+            return deleted > 0;
+        } catch (SQLException e) {
+            throw new DataAccessException("Failed to delete product", e);
+        }
+    }
+
+    @Override
+    public boolean hasExistingOrders(long productId) {
+        String sql = "SELECT COUNT(*) FROM order_items WHERE product_id = ?";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setLong(1, productId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+                return false;
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException("Failed to check existing orders for product", e);
+        }
+    }
+
     private Product mapRow(ResultSet rs) throws SQLException {
         Product product = new Product();
         product.setId(rs.getLong("id"));

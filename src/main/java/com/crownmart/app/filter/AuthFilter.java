@@ -17,7 +17,7 @@ import com.crownmart.app.model.User;
 
 /**
  * Guards routes that require a logged-in session, and further restricts
- * seller-only routes (product creation) and admin-only routes (admin dashboard)
+ * seller-only routes (product creation/edit/delete) and admin-only routes (admin dashboard)
  * to users with the appropriate role.
  * Unauthenticated requests are redirected to the login page.
  */
@@ -26,6 +26,8 @@ import com.crownmart.app.model.User;
         "/checkout/*",
         "/orders/*",
         "/products/create",
+        "/products/edit",
+        "/products/delete",
         "/admin/*"
 })
 public class AuthFilter implements Filter {
@@ -54,6 +56,11 @@ public class AuthFilter implements Filter {
         String path = request.getServletPath();
         if (path.startsWith("/products/create") && loggedInUser.getRole() != User.Role.SELLER) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "Only sellers can create product listings.");
+            return;
+        }
+        if ((path.startsWith("/products/edit") || path.startsWith("/products/delete"))
+                && loggedInUser.getRole() != User.Role.SELLER) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Only sellers can edit or delete product listings.");
             return;
         }
         if (path.startsWith("/admin") && loggedInUser.getRole() != User.Role.ADMIN) {
