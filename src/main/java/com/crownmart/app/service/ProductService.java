@@ -89,4 +89,19 @@ public class ProductService {
 
         productDao.delete(productId);
     }
+
+    /**
+     * Admin moderation: removes a listing regardless of ownership.
+     * Still blocked if the product has existing orders, to preserve order history integrity.
+     */
+    public void adminRemoveListing(long productId) throws ValidationException, BusinessRuleException {
+        Product existing = productDao.findById(productId)
+                .orElseThrow(() -> new ValidationException("Product not found"));
+
+        if (productDao.hasExistingOrders(productId)) {
+            throw new BusinessRuleException("Cannot remove a product that has existing orders");
+        }
+
+        productDao.delete(productId);
+    }
 }
