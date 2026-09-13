@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 public class User {
 
     public enum Role {
-        BUYER, SELLER
+        BUYER, SELLER, ADMIN
     }
 
     private long id;

@@ -40,6 +40,9 @@
         <% if (navUser.getRole().name().equals("SELLER")) { %>
         <a href="<c:url value='/products/create'/>">List a Product</a>
         <% } %>
+        <% if (navUser.getRole().name().equals("ADMIN")) { %>
+        <a href="<c:url value='/admin/dashboard'/>">Admin Dashboard</a>
+        <% } %>
         <% } %>
     </div>
     <div>

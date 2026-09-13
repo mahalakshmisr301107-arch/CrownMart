@@ -13,4 +13,6 @@ public interface OrderDao {
     Optional<Order> findByIdWithItems(long orderId);
 
     List<Order> findByBuyer(long buyerId);
+
+    List<Order> findAll();
 }

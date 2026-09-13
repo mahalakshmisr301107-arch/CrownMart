@@ -1,5 +1,6 @@
 package com.crownmart.app.dao;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.crownmart.app.model.User;
@@ -13,4 +14,6 @@ public interface UserDao {
     Optional<User> findById(long id);
 
     boolean existsByEmail(String email);
+
+    List<User> findAll();
 }

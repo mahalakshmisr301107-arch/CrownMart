@@ -1,6 +1,7 @@
 package com.crownmart.app.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.crownmart.app.dao.UserDao;
 import com.crownmart.app.dto.RegisterRequest;
@@ -55,5 +56,9 @@ public class UserService {
             throw new AuthenticationException("Invalid email or password.");
         }
         return user;
+    }
+
+    public List<User> findAll() {
+        return userDao.findAll();
     }
 }

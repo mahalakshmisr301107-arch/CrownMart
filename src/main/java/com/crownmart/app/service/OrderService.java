@@ -83,4 +83,8 @@ public class OrderService {
     public Optional<Order> getOrder(long orderId) {
         return orderDao.findByIdWithItems(orderId);
     }
+
+    public List<Order> findAllOrders() {
+        return orderDao.findAll();
+    }
 }

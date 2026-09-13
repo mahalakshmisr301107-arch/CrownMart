@@ -49,7 +49,12 @@ public class LoginServlet extends BaseServlet {
             session.setAttribute(AuthFilter.SESSION_USER_ATTR, user);
 
             log.info("User {} logged in", user.getEmail());
-            response.sendRedirect(request.getContextPath() + "/products");
+
+            if (user.getRole() == User.Role.ADMIN) {
+                response.sendRedirect(request.getContextPath() + "/admin/dashboard");
+            } else {
+                response.sendRedirect(request.getContextPath() + "/products");
+            }
         } catch (AuthenticationException e) {
             request.setAttribute("errorMessage", e.getMessage());
             request.setAttribute("formEmail", email);

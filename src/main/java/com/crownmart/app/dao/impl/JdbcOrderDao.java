@@ -124,6 +124,27 @@ public class JdbcOrderDao implements OrderDao {
         }
     }
 
+    @Override
+    public List<Order> findAll() {
+        String sql = "SELECT id, buyer_id, status, total_amount, created_at FROM orders ORDER BY created_at DESC";
+        try (Connection conn = dataSource.getConnection()) {
+            Map<Long, Order> orders = new LinkedHashMap<>();
+            try (PreparedStatement ps = conn.prepareStatement(sql);
+                 ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Order order = mapOrderRow(rs);
+                    orders.put(order.getId(), order);
+                }
+            }
+            for (Order order : orders.values()) {
+                order.setItems(fetchItems(conn, order.getId()));
+            }
+            return new ArrayList<>(orders.values());
+        } catch (SQLException e) {
+            throw new DataAccessException("Failed to find all orders", e);
+        }
+    }
+
     private List<OrderItem> fetchItems(Connection conn, long orderId) throws SQLException {
         String sql = "SELECT oi.id, oi.order_id, oi.product_id, oi.quantity, oi.unit_price, p.name AS product_name "
                 + "FROM order_items oi JOIN products p ON oi.product_id = p.id WHERE oi.order_id = ?";

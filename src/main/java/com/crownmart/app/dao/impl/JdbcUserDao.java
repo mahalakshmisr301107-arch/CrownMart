@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.sql.DataSource;
@@ -83,6 +85,22 @@ public class JdbcUserDao implements UserDao {
             }
         } catch (SQLException e) {
             throw new DataAccessException("Failed to check user existence", e);
+        }
+    }
+
+    @Override
+    public List<User> findAll() {
+        String sql = "SELECT id, name, email, password_hash, role, created_at FROM users ORDER BY id";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            List<User> users = new ArrayList<>();
+            while (rs.next()) {
+                users.add(mapRow(rs));
+            }
+            return users;
+        } catch (SQLException e) {
+            throw new DataAccessException("Failed to find all users", e);
         }
     }
 
