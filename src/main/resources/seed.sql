@@ -3,11 +3,11 @@
 -- Plaintext demo passwords are documented in README.md - never store plaintext.
 
 INSERT INTO users (name, email, password_hash, role, created_at) VALUES
-    ('Asha Buyer',       'buyer1@crownmart.test',  '$2a$12$f1EfE.BRXJClewvllIXPRuT3YtlMk8a4.K90Jl6fuccx/HwJrTxTa', 'BUYER',  CURRENT_TIMESTAMP),
-    ('Ravi Buyer',       'buyer2@crownmart.test',  '$2a$12$f1EfE.BRXJClewvllIXPRuT3YtlMk8a4.K90Jl6fuccx/HwJrTxTa', 'BUYER',  CURRENT_TIMESTAMP),
-    ('Meera Seller',     'seller1@crownmart.test', '$2a$12$f1EfE.BRXJClewvllIXPRuT3YtlMk8a4.K90Jl6fuccx/HwJrTxTa', 'SELLER', CURRENT_TIMESTAMP),
-    ('Karthik Seller',   'seller2@crownmart.test', '$2a$12$f1EfE.BRXJClewvllIXPRuT3YtlMk8a4.K90Jl6fuccx/HwJrTxTa', 'SELLER', CURRENT_TIMESTAMP),
-    ('adminMahalakshmi', 'admin@crownmart.test',   '$2a$12$f1EfE.BRXJClewvllIXPRuT3YtlMk8a4.K90Jl6fuccx/HwJrTxTa', 'ADMIN',  CURRENT_TIMESTAMP);
+    ('Asha Buyer',       'buyer1@crownmart.com',  '$2a$12$f1EfE.BRXJClewvllIXPRuT3YtlMk8a4.K90Jl6fuccx/HwJrTxTa', 'BUYER',  CURRENT_TIMESTAMP),
+    ('Ravi Buyer',       'buyer2@crownmart.com',  '$2a$12$f1EfE.BRXJClewvllIXPRuT3YtlMk8a4.K90Jl6fuccx/HwJrTxTa', 'BUYER',  CURRENT_TIMESTAMP),
+    ('Meera Seller',     'seller1@crownmart.com', '$2a$12$f1EfE.BRXJClewvllIXPRuT3YtlMk8a4.K90Jl6fuccx/HwJrTxTa', 'SELLER', CURRENT_TIMESTAMP),
+    ('Karthik Seller',   'seller2@crownmart.com', '$2a$12$f1EfE.BRXJClewvllIXPRuT3YtlMk8a4.K90Jl6fuccx/HwJrTxTa', 'SELLER', CURRENT_TIMESTAMP),
+    ('adminMahalakshmi', 'admin@crownmart.com',   '$2a$12$f1EfE.BRXJClewvllIXPRuT3YtlMk8a4.K90Jl6fuccx/HwJrTxTa', 'ADMIN',  CURRENT_TIMESTAMP);
 
 -- seller1 (Meera Seller, id=3) products - Electronics
 INSERT INTO products (seller_id, name, description, price, stock_qty, category, image_url, created_at) VALUES
