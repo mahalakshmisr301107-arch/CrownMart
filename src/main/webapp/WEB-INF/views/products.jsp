@@ -21,8 +21,10 @@
 <div class="product-grid">
     <c:forEach var="p" items="${products}">
         <div class="card">
-            <img src="<c:out value='${p.imageUrl}'/>" alt="" style="width:100%; height:140px; object-fit:cover; border-radius:6px;" onerror="this.style.display='none'">
-            <h3 style="margin:8px 0 4px;"><c:out value="${p.name}"/></h3>
+            <a href="<c:url value='/products/view'><c:param name='id' value='${p.id}'/></c:url>" style="text-decoration:none; color:inherit;">
+                <img src="<c:out value='${p.imageUrl}'/>" alt="" style="width:100%; height:140px; object-fit:cover; border-radius:6px;" onerror="this.style.display='none'">
+                <h3 style="margin:8px 0 4px;"><c:out value="${p.name}"/></h3>
+            </a>
             <div class="muted"><c:out value="${p.category}"/></div>
             <p><c:out value="${p.description}"/></p>
             <div class="price">&#8377;<fmt:formatNumber value="${p.price}" minFractionDigits="2" maxFractionDigits="2"/></div>
@@ -38,6 +40,18 @@
                     <input type="number" name="quantity" value="1" min="1" max="${p.stockQty}" style="width:70px; margin:0;">
                     <button type="submit">Add to cart</button>
                 </form>
+            </c:if>
+            <c:if test="${sessionScope.loggedInUser != null && sessionScope.loggedInUser.id == p.sellerId}">
+                <div style="margin-top:8px; display:flex; gap:8px;">
+                    <a href="<c:url value='/products/edit'><c:param name='id' value='${p.id}'/></c:url>">
+                        <button type="button">Edit</button>
+                    </a>
+                    <form method="post" action="<c:url value='/products/delete'/>"
+                          onsubmit="return confirm('Are you sure you want to delete this listing?');">
+                        <input type="hidden" name="id" value="${p.id}">
+                        <button type="submit">Delete</button>
+                    </form>
+                </div>
             </c:if>
         </div>
     </c:forEach>
