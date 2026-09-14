@@ -173,6 +173,28 @@ public class JdbcOrderDao implements OrderDao {
         }
     }
 
+    @Override
+    public boolean hasDeliveredOrderForProduct(long buyerId, long productId) {
+        // NOTE: Orders currently reach CONFIRMED at checkout and there is no status-update
+        // flow yet to move them to DELIVERED. Until that exists, CONFIRMED is treated as
+        // "completed enough" to leave a review. Tighten this to DELIVERED-only once
+        // order status progression is implemented.
+        String sql = "SELECT COUNT(*) FROM orders o "
+                + "JOIN order_items oi ON oi.order_id = o.id "
+                + "WHERE o.buyer_id = ? AND oi.product_id = ? "
+                + "AND o.status IN ('CONFIRMED', 'SHIPPED', 'DELIVERED')";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setLong(1, buyerId);
+            ps.setLong(2, productId);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() && rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException("Failed to check delivered order for product", e);
+        }
+    }
+
     private List<OrderItem> fetchItems(Connection conn, long orderId) throws SQLException {
         String sql = "SELECT oi.id, oi.order_id, oi.product_id, oi.quantity, oi.unit_price, p.name AS product_name "
                 + "FROM order_items oi JOIN products p ON oi.product_id = p.id WHERE oi.order_id = ?";
@@ -213,7 +235,6 @@ public class JdbcOrderDao implements OrderDao {
         item.setQuantity(rs.getInt("quantity"));
         item.setUnitPrice(rs.getBigDecimal("unit_price"));
         item.setProductName(rs.getString("product_name"));
-        items_placeholder:
         return item;
     }
 

@@ -6,15 +6,18 @@ import javax.sql.DataSource;
 import com.crownmart.app.dao.CartDao;
 import com.crownmart.app.dao.OrderDao;
 import com.crownmart.app.dao.ProductDao;
+import com.crownmart.app.dao.ReviewDao;
 import com.crownmart.app.dao.UserDao;
 import com.crownmart.app.dao.impl.JdbcCartDao;
 import com.crownmart.app.dao.impl.JdbcOrderDao;
 import com.crownmart.app.dao.impl.JdbcProductDao;
+import com.crownmart.app.dao.impl.JdbcReviewDao;
 import com.crownmart.app.dao.impl.JdbcUserDao;
 import com.crownmart.app.listener.DataSourceListener;
 import com.crownmart.app.service.CartService;
 import com.crownmart.app.service.OrderService;
 import com.crownmart.app.service.ProductService;
+import com.crownmart.app.service.ReviewService;
 import com.crownmart.app.service.UserService;
 
 /**
@@ -28,6 +31,7 @@ public abstract class BaseServlet extends HttpServlet {
     protected ProductService productService;
     protected CartService cartService;
     protected OrderService orderService;
+    protected ReviewService reviewService;
 
     @Override
     public void init() {
@@ -37,10 +41,12 @@ public abstract class BaseServlet extends HttpServlet {
         ProductDao productDao = new JdbcProductDao(dataSource);
         CartDao cartDao = new JdbcCartDao(dataSource);
         OrderDao orderDao = new JdbcOrderDao(dataSource);
+        ReviewDao reviewDao = new JdbcReviewDao(dataSource);
 
         this.userService = new UserService(userDao);
         this.productService = new ProductService(productDao);
         this.cartService = new CartService(cartDao, productDao);
         this.orderService = new OrderService(orderDao, cartDao, productDao);
+        this.reviewService = new ReviewService(reviewDao, orderDao);
     }
 }

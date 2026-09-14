@@ -21,4 +21,10 @@ public interface OrderDao {
      * Each returned Order includes only the order_items belonging to that seller's products.
      */
     List<Order> findBySeller(long sellerId);
+
+    /**
+     * Returns true if the given buyer has a DELIVERED order containing the given product.
+     * Used to gate review eligibility per the spec (F8: reviews on completed orders).
+     */
+    boolean hasDeliveredOrderForProduct(long buyerId, long productId);
 }
