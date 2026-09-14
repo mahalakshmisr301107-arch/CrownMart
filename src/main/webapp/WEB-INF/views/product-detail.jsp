@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="header.jspf" %>
@@ -60,7 +61,7 @@
             <c:forEach var="r" items="${reviews}">
                 <div style="border-bottom:1px solid #eee; padding:10px 0;">
                     <strong><c:out value="${r.reviewerName}"/></strong>
-                    — <c:out value="${r.rating}"/>/5
+                    &#8212; <c:out value="${r.rating}"/>/5
                     <span class="muted">(<c:out value="${r.createdAt}"/>)</span>
                     <p><c:out value="${r.comment}"/></p>
                 </div>
