@@ -7,23 +7,120 @@
     <meta charset="UTF-8">
     <title>CrownMart</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; background: #f5f6fa; color: #222; }
-        header { background: #1c2b4a; color: #fff; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; }
-        header a { color: #fff; text-decoration: none; margin-right: 16px; font-weight: 500; }
-        header .brand { font-size: 20px; font-weight: bold; margin-right: 32px; }
-        main { max-width: 960px; margin: 24px auto; padding: 0 16px; }
-        .card { background: #fff; border-radius: 8px; padding: 16px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        .flash { background: #eaf7ea; border: 1px solid #7bc47f; color: #235c27; padding: 10px 14px; border-radius: 6px; margin-bottom: 16px; }
-        .error { background: #fdeaea; border: 1px solid #e08585; color: #7a1f1f; padding: 10px 14px; border-radius: 6px; margin-bottom: 16px; }
-        input, select, textarea { width: 100%; padding: 8px; margin: 6px 0 12px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
-        label { font-weight: 600; font-size: 14px; }
-        button, .btn { background: #1c2b4a; color: #fff; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; font-size: 14px; text-decoration: none; display: inline-block; }
-        button:hover, .btn:hover { background: #33456b; }
+        :root {
+            --bg: #14161a;
+            --surface: #1e2128;
+            --surface-hover: #262a33;
+            --border: #2e323c;
+            --gold: #c9a24b;
+            --gold-hover: #ddb85f;
+            --text: #eae7e0;
+            --text-muted: #9a9a9e;
+            --success-bg: #16261c;
+            --success-border: #2f5c3e;
+            --success-text: #8fd6a3;
+            --error-bg: #2a1818;
+            --error-border: #6b2c2c;
+            --error-text: #e39b9b;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Georgia, 'Times New Roman', serif;
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            letter-spacing: 0.01em;
+        }
+        header {
+            background: linear-gradient(180deg, #1a1c22 0%, #16181d 100%);
+            color: var(--text);
+            padding: 18px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+        header a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-right: 20px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: color 0.2s ease;
+        }
+        header a:hover { color: var(--gold); }
+        header .brand {
+            font-size: 24px;
+            font-weight: 600;
+            margin-right: 40px;
+            color: var(--gold);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+        main { max-width: 960px; margin: 32px auto; padding: 0 16px; }
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 18px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+            transition: border-color 0.2s ease, transform 0.15s ease;
+        }
+        .product-grid .card:hover {
+            border-color: var(--gold);
+            transform: translateY(-2px);
+        }
+        .flash {
+            background: var(--success-bg);
+            border: 1px solid var(--success-border);
+            color: var(--success-text);
+            padding: 10px 14px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+        }
+        .error {
+            background: var(--error-bg);
+            border: 1px solid var(--error-border);
+            color: var(--error-text);
+            padding: 10px 14px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 6px 0 12px;
+            box-sizing: border-box;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            background: #0f1114;
+            color: var(--text);
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+        label { font-weight: 600; font-size: 13px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+        button, .btn {
+            background: var(--gold);
+            color: #1a1a1a;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.2s ease;
+        }
+        button:hover, .btn:hover { background: var(--gold-hover); }
         table { width: 100%; border-collapse: collapse; }
-        th, td { text-align: left; padding: 8px; border-bottom: 1px solid #e2e2e2; }
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
-        .muted { color: #777; font-size: 13px; }
-        .price { font-weight: bold; color: #1c2b4a; }
+        th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--border); }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .muted { color: var(--text-muted); font-size: 13px; }
+        .price { font-weight: 700; color: var(--gold); font-size: 17px; }
     </style>
 </head>
 <body>
