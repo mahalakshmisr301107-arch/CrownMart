@@ -4,3 +4,7 @@ target/
 *.iml
 .vscode/
 *.log
+data/
+*.mv.db
+*.lock.db
+*.trace.db
