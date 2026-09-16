@@ -5,223 +5,318 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CrownMart</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #14161a;
-            --surface: #1e2128;
-            --surface-hover: #262a33;
-            --border: #2e323c;
-            --gold: #c9a24b;
-            --gold-hover: #ddb85f;
-            --terracotta: #b5651d;
-            --text: #eae7e0;
-            --text-muted: #9a9a9e;
-            --success-bg: #16261c;
-            --success-border: #2f5c3e;
-            --success-text: #8fd6a3;
-            --error-bg: #2a1818;
-            --error-border: #6b2c2c;
-            --error-text: #e39b9b;
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --surface-hover: #f1f5f9;
+            --border: #e2e8f0;
+            --border-strong: #cbd5e1;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --primary-light: #eff6ff;
+            --teal: #0d9488;
+            --teal-light: #f0fdfa;
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --text-faint: #94a3b8;
+            --success-bg: #f0fdf4;
+            --success-border: #bbf7d0;
+            --success-text: #15803d;
+            --error-bg: #fef2f2;
+            --error-border: #fecaca;
+            --error-text: #b91c1c;
+            --radius: 10px;
+            --radius-sm: 6px;
+            --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+            --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
+            --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.12);
         }
         * { box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', Georgia, 'Times New Roman', serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             margin: 0;
             background: var(--bg);
             color: var(--text);
-            letter-spacing: 0.01em;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
         }
         header {
-            background: linear-gradient(180deg, #1a1c22 0%, #16181d 100%);
-            color: var(--text);
-            padding: 18px 32px;
+            background: var(--surface);
+            padding: 16px 32px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 50;
         }
         header a {
             color: var(--text-muted);
             text-decoration: none;
-            margin-right: 20px;
+            margin-right: 4px;
+            padding: 8px 14px;
+            border-radius: var(--radius-sm);
             font-weight: 500;
             font-size: 14px;
-            transition: color 0.2s ease;
+            transition: all 0.15s ease;
         }
-        header a:hover { color: var(--gold); }
+        header a:hover { color: var(--text); background: var(--surface-hover); }
         header .brand {
-            font-size: 24px;
-            font-weight: 600;
-            margin-right: 40px;
-            color: var(--gold);
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
+            font-size: 20px;
+            font-weight: 800;
+            margin-right: 32px;
+            color: var(--text);
+            letter-spacing: -0.02em;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
         }
-        main { max-width: 960px; margin: 32px auto; padding: 0 16px; }
+        header .brand::before {
+            content: "";
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 3px;
+            background: linear-gradient(135deg, var(--primary), var(--teal));
+            margin-right: 8px;
+        }
+        main { max-width: 1100px; margin: 32px auto; padding: 0 20px; }
         .card {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 18px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.35);
-            transition: border-color 0.2s ease, transform 0.15s ease;
+            border-radius: var(--radius);
+            padding: 22px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-sm);
+            transition: box-shadow 0.2s ease, transform 0.15s ease, border-color 0.2s ease;
         }
         .product-grid .card:hover {
-            border-color: var(--gold);
-            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--border-strong);
+            transform: translateY(-3px);
         }
         .flash {
             background: var(--success-bg);
             border: 1px solid var(--success-border);
             color: var(--success-text);
-            padding: 10px 14px;
-            border-radius: 6px;
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
             margin-bottom: 16px;
+            font-size: 14px;
+            font-weight: 500;
         }
         .error {
             background: var(--error-bg);
             border: 1px solid var(--error-border);
             color: var(--error-text);
-            padding: 10px 14px;
-            border-radius: 6px;
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
             margin-bottom: 16px;
+            font-size: 14px;
+            font-weight: 500;
         }
         input, select, textarea {
             width: 100%;
-            padding: 10px;
-            margin: 6px 0 12px;
+            padding: 11px 12px;
+            margin: 6px 0 14px;
             box-sizing: border-box;
-            border: 1px solid var(--border);
-            border-radius: 5px;
-            background: #0f1114;
+            border: 1px solid var(--border-strong);
+            border-radius: var(--radius-sm);
+            background: var(--surface);
             color: var(--text);
+            font-family: inherit;
+            font-size: 14px;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
         }
         input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: var(--gold);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
         }
-        label { font-weight: 600; font-size: 13px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+        label { font-weight: 600; font-size: 12.5px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
         button, .btn {
-            background: var(--gold);
-            color: #1a1a1a;
+            background: var(--primary);
+            color: #ffffff;
             border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
+            padding: 11px 22px;
+            border-radius: var(--radius-sm);
             cursor: pointer;
             font-size: 14px;
             font-weight: 600;
             text-decoration: none;
             display: inline-block;
-            transition: background 0.2s ease;
+            transition: background 0.15s ease, transform 0.1s ease;
+            font-family: inherit;
         }
-        button:hover, .btn:hover { background: var(--gold-hover); }
+        button:hover, .btn:hover { background: var(--primary-hover); }
+        button:active, .btn:active { transform: scale(0.98); }
         table { width: 100%; border-collapse: collapse; }
-        th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--border); }
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        th {
+            text-align: left;
+            padding: 10px 12px;
+            border-bottom: 2px solid var(--border);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        td { text-align: left; padding: 12px; border-bottom: 1px solid var(--border); font-size: 14.5px; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 20px; }
         .muted { color: var(--text-muted); font-size: 13px; }
-        .price { font-weight: 700; color: var(--gold); font-size: 17px; }
+        .price { font-weight: 700; color: var(--text); font-size: 18px; }
+        .price::before { content: "₹"; font-weight: 600; margin-right: 1px; opacity: 0.7; }
 
-        h1, h2, .serif { font-family: 'Playfair Display', Georgia, serif; }
+        h1, h2, h3 { letter-spacing: -0.02em; font-weight: 700; }
 
         .hero {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 48px;
-            padding: 64px 16px;
+            gap: 56px;
+            padding: 72px 20px;
             flex-wrap: wrap;
         }
-        .hero-content { flex: 1 1 420px; max-width: 560px; }
+        .hero-content { flex: 1 1 440px; max-width: 580px; }
         .eyebrow {
-            color: var(--terracotta);
-            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--primary);
+            background: var(--primary-light);
+            font-size: 12.5px;
             font-weight: 700;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            margin-bottom: 16px;
-            display: block;
+            letter-spacing: 0.02em;
+            padding: 6px 12px;
+            border-radius: 999px;
+            margin-bottom: 20px;
         }
         .hero-title {
-            font-size: 52px;
-            line-height: 1.15;
-            font-weight: 700;
+            font-size: 48px;
+            line-height: 1.1;
+            font-weight: 800;
             color: var(--text);
-            margin: 0 0 20px;
+            margin: 0 0 18px;
+        }
+        .hero-title .accent {
+            background: linear-gradient(135deg, var(--primary), var(--teal));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
         .hero-subtitle {
             font-size: 17px;
             color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 28px;
+            line-height: 1.65;
+            margin-bottom: 30px;
+            max-width: 480px;
         }
-        .hero-actions { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+        .hero-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
         .btn-outline {
-            background: transparent;
-            color: var(--gold);
-            border: 1px solid var(--gold);
-            padding: 10px 20px;
-            border-radius: 6px;
+            background: var(--surface);
+            color: var(--text);
+            border: 1px solid var(--border-strong);
+            padding: 11px 22px;
+            border-radius: var(--radius-sm);
             text-decoration: none;
             font-weight: 600;
             font-size: 14px;
-            transition: background 0.2s ease, color 0.2s ease;
+            transition: all 0.15s ease;
         }
-        .btn-outline:hover { background: var(--gold); color: #1a1a1a; }
+        .btn-outline:hover { border-color: var(--text-muted); background: var(--surface-hover); }
+
         .hero-visual {
             position: relative;
-            width: 280px;
+            width: 320px;
             height: 340px;
             flex-shrink: 0;
         }
         .hero-card {
             position: absolute;
-            width: 240px;
-            height: 300px;
-            border-radius: 10px;
-            box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
         }
         .hero-card-back {
-            background: var(--terracotta);
-            top: 40px;
-            left: 60px;
-            transform: rotate(8deg);
+            background: linear-gradient(135deg, var(--teal), var(--primary));
+            width: 240px; height: 300px;
+            top: 30px; left: 60px;
+            opacity: 0.15;
         }
         .hero-card-front {
             background: var(--surface);
-            border: 1px solid var(--gold);
-            top: 0;
-            left: 0;
-            padding: 28px 22px;
+            border: 1px solid var(--border);
+            width: 280px; height: 320px;
+            top: 0; left: 20px;
+            padding: 26px;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
+            justify-content: space-between;
         }
         .hero-card-front .tag {
-            color: var(--gold);
+            color: var(--teal);
+            background: var(--teal-light);
             font-size: 11px;
-            letter-spacing: 0.12em;
+            font-weight: 700;
+            letter-spacing: 0.04em;
             text-transform: uppercase;
-            margin-bottom: 10px;
+            padding: 5px 10px;
+            border-radius: 999px;
+            display: inline-block;
+            width: fit-content;
         }
         .hero-card-front .headline {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 700;
             color: var(--text);
-            margin-bottom: 10px;
-            line-height: 1.3;
+            line-height: 1.35;
         }
         .hero-card-front .caption { color: var(--text-muted); font-size: 13px; }
+
+        .stats-bar {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+            padding: 28px 20px;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 40px;
+        }
+        .stat-item { display: flex; flex-direction: column; }
+        .stat-number { font-size: 26px; font-weight: 800; color: var(--text); }
+        .stat-label { font-size: 13px; color: var(--text-muted); }
+
+        .section-heading { display: flex; align-items: baseline; justify-content: space-between; margin: 48px 0 20px; flex-wrap: wrap; gap: 8px; }
+        .section-heading h2 { font-size: 24px; margin: 0; }
+        .section-heading a { color: var(--primary); font-size: 14px; font-weight: 600; text-decoration: none; }
+
+        .category-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; margin-bottom: 8px; }
+        .category-tile {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px 16px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.15s ease;
+        }
+        .category-tile:hover { border-color: var(--primary); box-shadow: var(--shadow-sm); transform: translateY(-2px); }
+        .category-icon { font-size: 26px; display: block; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 <header>
-    <div>
-        <span class="brand">CrownMart</span>
+    <div style="display:flex; align-items:center;">
+        <a href="<c:url value='/'/>" class="brand">CrownMart</a>
         <%
             User navUser = (session == null) ? null : (User) session.getAttribute(AuthFilter.SESSION_USER_ATTR);
             if (navUser != null) {
@@ -236,15 +331,17 @@
         <% if (navUser.getRole().name().equals("ADMIN")) { %>
         <a href="<c:url value='/admin/dashboard'/>">Admin Dashboard</a>
         <% } %>
+        <% } else { %>
+        <a href="<c:url value='/products'/>">Browse</a>
         <% } %>
     </div>
     <div>
         <% if (navUser != null) { %>
-            <span style="margin-right:12px;">Hi, <c:out value="<%= navUser.getName() %>"/> (<%= navUser.getRole() %>)</span>
+            <span class="muted" style="margin-right:14px;">Hi, <c:out value="<%= navUser.getName() %>"/> · <%= navUser.getRole() %></span>
             <a href="<c:url value='/logout'/>">Log out</a>
         <% } else { %>
             <a href="<c:url value='/login'/>">Log in</a>
-            <a href="<c:url value='/register'/>">Register</a>
+            <a href="<c:url value='/register'/>" class="btn" style="margin-left:8px;">Sign up</a>
         <% } %>
     </div>
 </header>
