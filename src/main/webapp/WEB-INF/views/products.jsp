@@ -27,7 +27,7 @@
             </a>
             <div class="muted"><c:out value="${p.category}"/></div>
             <p><c:out value="${p.description}"/></p>
-            <div class="price">&#8377;<fmt:formatNumber value="${p.price}" minFractionDigits="2" maxFractionDigits="2"/></div>
+            <div class="price"><fmt:formatNumber value="${p.price}" minFractionDigits="2" maxFractionDigits="2"/></div>
             <div class="muted">
                 <c:choose>
                     <c:when test="${p.stockQty > 0}">${p.stockQty} in stock</c:when>

@@ -28,7 +28,7 @@
                 <td><c:out value="${p.id}"/></td>
                 <td><c:out value="${p.name}"/></td>
                 <td><c:out value="${p.category}"/></td>
-                <td class="price">&#8377;<c:out value="${p.price}"/></td>
+                <td class="price"><c:out value="${p.price}"/></td>
                 <td><c:out value="${p.stockQty}"/></td>
                 <td><c:out value="${p.sellerId}"/></td>
                 <td>
@@ -52,7 +52,7 @@
                 <td><c:out value="${o.id}"/></td>
                 <td><c:out value="${buyerNames[o.buyerId]}"/></td>
                 <td><c:out value="${o.status}"/></td>
-                <td class="price">&#8377;<c:out value="${o.totalAmount}"/></td>
+                <td class="price"><c:out value="${o.totalAmount}"/></td>
                 <td><c:out value="${o.createdAt}"/></td>
             </tr>
         </c:forEach>

@@ -8,7 +8,7 @@
     <h2 style="margin:12px 0 4px;"><c:out value="${product.name}"/></h2>
     <div class="muted"><c:out value="${product.category}"/></div>
     <p><c:out value="${product.description}"/></p>
-    <div class="price">&#8377;<fmt:formatNumber value="${product.price}" minFractionDigits="2" maxFractionDigits="2"/></div>
+    <div class="price"><fmt:formatNumber value="${product.price}" minFractionDigits="2" maxFractionDigits="2"/></div>
     <div class="muted">
         <c:choose>
             <c:when test="${product.stockQty > 0}">${product.stockQty} in stock</c:when>
@@ -31,7 +31,7 @@
         </form>
     </c:if>
 
-    <a href="<c:url value='/products'/>" style="display:inline-block; margin-top:12px;">Back to products</a>
+    <a href="<c:url value='/products'/>" style="display:inline-block; margin-top:12px; color:#9a6a24; font-weight:600; text-decoration:none;">&larr; Back to products</a>
 </div>
 
 <c:if test="${sessionScope.loggedInUser != null}">
@@ -59,7 +59,7 @@
         </c:when>
         <c:otherwise>
             <c:forEach var="r" items="${reviews}">
-                <div style="border-bottom:1px solid #eee; padding:10px 0;">
+                <div style="border-bottom:1px solid #e3d5b8; padding:10px 0;">
                     <strong><c:out value="${r.reviewerName}"/></strong>
                     &#8212; <c:out value="${r.rating}"/>/5
                     <span class="muted">(<c:out value="${r.createdAt}"/>)</span>
