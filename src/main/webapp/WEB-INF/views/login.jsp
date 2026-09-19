@@ -13,7 +13,7 @@
         <button type="submit">Log in</button>
     </form>
     <p class="muted">No account yet? <a href="<c:url value='/register'/>">Register</a></p>
-    <p class="muted">Demo logins: buyer1@crownmart.test / buyerpass1 &middot; seller1@crownmart.test / sellerpass1</p>
+    <p class="muted">Demo logins: buyer1@crownmart.com / crownmart123 &middot; seller1@crownmart.com / crownmart123</p>
 </div>
 
 <%@ include file="footer.jspf" %>
