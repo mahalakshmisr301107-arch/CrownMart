@@ -8,3 +8,6 @@ data/
 *.mv.db
 *.lock.db
 *.trace.db
+config.properties
+.env
+!*.example
