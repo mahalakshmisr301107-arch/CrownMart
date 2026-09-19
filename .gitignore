@@ -1,4 +1,4 @@
-target/
+﻿target/
 *.class
 .idea/
 *.iml
@@ -8,6 +8,5 @@ data/
 *.mv.db
 *.lock.db
 *.trace.db
-config.properties
-.env
-!*.example
+*.properties
+!src/main/resources/*.properties.example
