@@ -14,8 +14,10 @@ class MockChatProviderTest {
     }
 
     @Test
-    void sellQuestionMentionsCreatePage() throws Exception {
-        assertTrue(mock.reply("How do I sell a product?").contains("/products/create"));
+    void sellQuestionMentionsListAProduct() throws Exception {
+        String r = mock.reply("How do I sell a product?");
+        assertTrue(r.contains("List a Product"));
+        assertTrue(r.contains("My Sales"));
     }
 
     @Test
@@ -24,15 +26,14 @@ class MockChatProviderTest {
     }
 
     @Test
-    void categoryQuestionListsRealCategories() throws Exception {
-        String r = mock.reply("What categories are there?");
-        assertTrue(r.contains("Electronics"));
-        assertTrue(r.contains("Home & Kitchen"));
+    void categoryQuestionMentionsBrowse() throws Exception {
+        assertTrue(mock.reply("What categories are there?").contains("Browse"));
     }
 
     @Test
-    void reviewQuestionMentionsReview() throws Exception {
-        assertTrue(mock.reply("How do I leave a review?").toLowerCase().contains("review"));
+    void reviewQuestionMentionsCompletedOrdersRule() throws Exception {
+        String r = mock.reply("How do I leave a review?");
+        assertTrue(r.contains("completed orders"));
     }
 
     @Test

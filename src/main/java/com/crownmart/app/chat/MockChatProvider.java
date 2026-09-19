@@ -20,21 +20,23 @@ public class MockChatProvider implements ChatProvider {
                 .replaceAll("[^a-z0-9& ]", " ").replaceAll("\\s+", " ").trim() + " ";
 
         if (has(m, "sell", "seller", "listing", "list a product", "add a product", "add product", "create product")) {
-            return "To sell on CrownMart, log in with a seller account, then open the page /products/create "
-                    + "to add your product. You can also edit or delete your own products. "
-                    + "Orders for your products appear on the Seller Orders page (/orders/seller).";
+            return "To sell on CrownMart, log in with a seller account and click \"List a Product\" "
+                    + "in the menu (/products/create). On the Browse page, your own products have "
+                    + "Edit and Delete buttons. Orders for your products appear under \"My Sales\" (/orders/seller).";
         }
         if (has(m, "review", "rating", "rate ")) {
-            return "To leave a review, log in, open a product from the Products page, and use the review form "
-                    + "on that product's page.";
+            return "To leave a review, log in as a buyer, click Browse, and open a product. "
+                    + "The \"Write a review\" form is on the product page. "
+                    + "You can only review products from your completed orders, once per product.";
         }
         if (has(m, "order", "checkout", "buy", "purchase", "cart")) {
-            return "To buy: open a product, add it to your cart, then open the Cart page and go to Checkout. "
-                    + "After that, you can see your orders on the Orders page (/orders).";
+            return "To buy: click Browse, choose a product and click \"Add to cart\". "
+                    + "Then open Cart and go to Checkout. "
+                    + "After that, you can see your orders under \"Orders\" (/orders).";
         }
         if (has(m, "categor")) {
-            return "CrownMart has two categories: Electronics and Home & Kitchen. "
-                    + "Open the Products page (/products) to see the listings.";
+            return "Sellers choose a category when they list a product (for example Makeup). "
+                    + "On the Browse page, type a category in the category box and click Search to filter.";
         }
         if (has(m, "login", "log in", "sign in", "account", "register", "sign up", "password")) {
             return "Use the Login page (/login) to sign in. New users can create an account on the "
@@ -45,7 +47,8 @@ public class MockChatProvider implements ChatProvider {
                     + "and remove products.";
         }
         if (has(m, "product", "browse", "search", "find", "shop", "items")) {
-            return "Open the Products page (/products) to see all listings. Click a product to see its details.";
+            return "Click Browse (/products) to see all listings. You can search by name or category. "
+                    + "Click a product to see its details.";
         }
         if (has(m, " hi ", " hello ", " hey ", "good morning", "good evening", "help")) {
             return "Hello! I can help with buying, selling, orders and reviews on CrownMart. What would you like to know?";
