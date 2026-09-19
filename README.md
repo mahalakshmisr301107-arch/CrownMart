@@ -1,95 +1,103 @@
-# CrownMart — MVP (Review 1)
+# CrownMart
 
-A multi-seller e-commerce marketplace web app built with Java Servlets, JDBC, and Tomcat,
-for an Anna University R2025 Semester 3 capstone project.
+A multi-seller online marketplace built with Java Servlets, JSP and JDBC. Independent sellers list products, buyers browse, add to cart and place orders, and an admin moderates the marketplace.
 
-## Scope covered in this MVP
+**Live demo:** https://crownmart.onrender.com
+(Hosted on Render's free tier. The first request after a period of inactivity can take about 30 seconds to wake up.)
 
-1. User registration and login (BUYER / SELLER roles), session-based auth
-2. Sellers can create product listings
-3. Buyers can browse and search products by keyword and category
-4. Cart: add / update quantity / remove, running total
-5. Checkout via a mock "Confirm Payment" step (no real payment gateway)
-6. Order history for buyers
+Anna University R2025, Semester 3 capstone project.
 
-Out of scope for this MVP (planned for later reviews): seller dashboard, admin panel,
-reviews, AI chatbot.
+## Problem statement
+
+Small independent sellers often have no simple, affordable place to list their goods, and buyers have no easy way to browse several sellers in one place. CrownMart provides one marketplace where sellers manage their own listings, buyers shop across sellers, and an admin keeps listings and users in check.
+
+## Features
+
+| Area | What it does |
+|---|---|
+| Accounts | Register as a buyer or seller, log in and log out, role-based access |
+| Browsing | Home page with category tiles, full product list, category filter, product detail page |
+| Seller tools | Create, edit and delete your own listings; view orders that contain your products |
+| Cart and checkout | Add, update and remove cart items; mock payment step; order confirmation |
+| Orders | Buyers see their order history with status and line items |
+| Reviews | Buyers review products from completed orders |
+| Admin | Dashboard listing users, products and orders; remove any listing |
+| Errors | Custom 404 and 500 pages |
+
+## Screenshots
+
+| Home | Product |
+|---|---|
+| ![Home](docs/screenshots/home.png) | ![Product](docs/screenshots/product.png) |
+
+| Cart | Checkout |
+|---|---|
+| ![Cart](docs/screenshots/cart.png) | ![Checkout](docs/screenshots/checkout.png) |
+
+| Orders |
+|---|
+| ![Orders](docs/screenshots/orders.png) |
+
+| Admin: users | Admin: products |
+|---|---|
+| ![Admin users](docs/screenshots/admin.png) | ![Admin products](docs/screenshots/admin-products.png) |
 
 ## Tech stack
 
-JDK 17 &middot; Tomcat 9.0.x &middot; Servlet API `javax.servlet.*` &middot; Maven &middot;
-H2 (file-based embedded DB) &middot; HikariCP &middot; JSP + JSTL &middot; Gson &middot;
-jBCrypt &middot; SLF4J + Logback
+| Layer | Technology |
+|---|---|
+| Language | Java 17 |
+| Web | Servlets, JSP, JSTL (Tomcat 9) |
+| Database | H2 with HikariCP connection pool |
+| Security | jBCrypt password hashing, AuthFilter for role checks |
+| Logging | SLF4J and Logback |
+| Build | Maven |
+| Tests | JUnit 5 |
+| CI/CD | GitHub Actions, Docker, Render |
 
-## How to build
+## Architecture
 
-```bash
-mvn clean package
-```
+The app follows a layered structure:
 
-This produces `target/crownmart.war`.
+- **Controller** (servlets): handle HTTP requests and choose the view.
+- **Service**: business rules such as placing an order or validating a review.
+- **DAO** (JDBC): all database access.
+- **View** (JSP and JSTL): pages under `WEB-INF/views`, sharing a common header and footer.
+- **Filter**: `AuthFilter` protects cart, orders, seller and admin routes by role.
 
-## How to deploy to Tomcat 9
+Diagrams (ER, use case, sequence) are in [docs/DIAGRAMS.md](docs/DIAGRAMS.md).
 
-1. Copy `target/crownmart.war` into `<TOMCAT_HOME>/webapps/`.
-2. Start Tomcat: `<TOMCAT_HOME>/bin/startup.sh` (or `startup.bat` on Windows).
-3. Tomcat will explode the WAR and deploy it at context path `/crownmart`.
-4. Visit `http://localhost:8080/crownmart/`.
+## Run locally
 
-On first startup, the app creates an H2 database file under `./data/crownmart.mv.db`
-(relative to Tomcat's working directory), applies `schema.sql`, and loads `seed.sql`
-if the `users` table is empty. Restarting Tomcat will not duplicate the seed data.
+Requirements: Java 17, Maven, Tomcat 9.
 
-> If you'd rather run against a pure in-memory DB that resets on every restart, change
-> the JDBC URL in `DataSourceListener` to `jdbc:h2:mem:crownmart;DB_CLOSE_DELAY=-1`.
+    mvn -B clean verify
 
-## Running the tests
+This runs the tests and builds `target/crownmart.war`. Deploy that WAR to Tomcat 9 and open `http://localhost:8080/crownmart`.
 
-```bash
-mvn test
-```
+## Demo logins
 
-This runs the JUnit 5 DAO tests against a fresh in-memory H2 instance (`jdbc:h2:mem:test_*`)
-created and torn down per test class — it does not touch the file-based dev/prod database.
+All accounts use the password `crownmart123`.
 
-## Seeded demo accounts
+| Role | Email |
+|---|---|
+| Buyer | buyer1@crownmart.com, buyer2@crownmart.com |
+| Seller | seller1@crownmart.com, seller2@crownmart.com, seller3@crownmart.com, seller4@crownmart.com |
+| Admin | admin@crownmart.com |
 
-| Role   | Email                     | Password      |
-|--------|----------------------------|---------------|
-| Buyer  | buyer1@crownmart.test       | buyerpass1    |
-| Buyer  | buyer2@crownmart.test       | buyerpass2    |
-| Seller | seller1@crownmart.test      | sellerpass1   |
-| Seller | seller2@crownmart.test      | sellerpass2   |
+## Security notes
 
-Six sample products are seeded across two categories (Electronics, Home & Kitchen),
-split between the two seller accounts.
+- Passwords are hashed with bcrypt, never stored in plain text.
+- Role-based access is enforced server-side by `AuthFilter`.
+- User-supplied values are escaped in JSP output with `<c:out>`.
+- Credentials and config files (`config.properties`, `.env`) are excluded from version control.
 
-## Project layout
+## Known limitations
 
-```
-com.crownmart.app
-|-- controller   Servlets — thin, HTTP orchestration only
-|-- service      Business rules (registration, cart math, checkout, stock validation)
-|-- dao          DAO interfaces + JDBC implementations (PreparedStatement everywhere)
-|-- model        POJO entities
-|-- dto          Request/response shapes
-|-- filter       AuthFilter (session + role guard), EncodingFilter (UTF-8)
-|-- listener     DataSourceListener — owns the HikariCP pool lifecycle
-|-- util         PasswordUtil (bcrypt), ValidationUtil, JsonUtil
-`-- exception    ValidationException, AuthenticationException, BusinessRuleException, DataAccessException
-```
+- The database is H2 on Render's free tier, so data resets to the seed data when the service restarts.
+- Payment is a mock step. No real payment gateway is connected.
+- Test coverage is currently DAO tests only. Service and servlet tests are planned.
 
-## Key engineering notes
+## Project status
 
-- Every SQL statement uses `PreparedStatement`; no string concatenation.
-- Passwords are hashed with jBCrypt (cost factor 12); plaintext is never stored or logged.
-- Login regenerates the session (old session invalidated, new one created) to prevent
-  session fixation, with an explicit 30-minute inactivity timeout.
-- All user-supplied output is escaped in JSP views via `<c:out>`.
-- The HikariCP connection pool is created and closed exclusively by `DataSourceListener`;
-  no other class calls `DriverManager.getConnection()`.
-- Every `Connection` / `PreparedStatement` / `ResultSet` is opened in try-with-resources.
-- Order placement (order + order_items) runs inside a single JDBC transaction with
-  manual commit/rollback so a partial order can never be persisted.
-- Servlets stay thin; business logic lives in `service`, which depends on DAO
-  **interfaces**, never concrete JDBC classes.
+The full build and deploy checkpoint is on Sep 21, 2026. The AI chatbot is planned for the final review on Oct 10, 2026.
