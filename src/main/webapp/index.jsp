@@ -1,12 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="WEB-INF/views/header.jspf" %>
 
-<section style="padding:56px 0 40px;">
-    <span class="eyebrow">Independent sellers, one marketplace</span>
-    <h1 class="hero-title">Shop small.<br>Shop honest.</h1>
+<section style="padding:64px 0 44px;">
+    <span class="eyebrow">Curated marketplace</span>
+    <h1 class="hero-title">Crafted goods.<br><span class="accent">Chosen sellers.</span></h1>
     <p class="hero-subtitle">
-        CrownMart is where independent sellers list what they make and buyers
-        find things worth keeping &mdash; no middlemen, no inflated prices.
+        CrownMart brings together independent sellers and buyers who care about
+        quality &mdash; every listing backed by a real maker, not a warehouse.
     </p>
     <div class="hero-actions">
         <a href="<c:url value='/products'/>" class="btn">Browse the marketplace</a>
@@ -51,7 +51,7 @@
                     </c:otherwise>
                 </c:choose>
             </div>
-            <div class="muted" style="font-family:'Space Mono', monospace; text-transform:uppercase; font-size:11px; margin-bottom:6px;">${product.category}</div>
+            <div class="muted" style="text-transform:uppercase; font-size:11px; letter-spacing:0.06em; margin-bottom:6px;">${product.category}</div>
             <div style="font-weight:600; margin-bottom:8px;"><c:out value="${product.name}"/></div>
             <div class="price">${product.price}</div>
         </a>
