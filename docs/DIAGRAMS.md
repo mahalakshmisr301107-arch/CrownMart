@@ -8,62 +8,62 @@ Derived from `schema.sql`. All monetary fields are `DECIMAL(10,2)`, every foreig
 
 ```mermaid
 erDiagram
-    USERS ||--o{ PRODUCTS : "sells (seller\_id)"
-    USERS ||--o{ ORDERS : "places (buyer\_id)"
-    USERS ||--o{ CART\_ITEMS : "has (user\_id)"
-    USERS ||--o{ REVIEWS : "writes (user\_id)"
-    ORDERS ||--|{ ORDER\_ITEMS : "contains (order\_id)"
-    PRODUCTS ||--o{ ORDER\_ITEMS : "ordered as (product\_id)"
-    PRODUCTS ||--o{ CART\_ITEMS : "added as (product\_id)"
-    PRODUCTS ||--o{ REVIEWS : "receives (product\_id)"
+    USERS ||--o{ PRODUCTS : "sells (seller_id)"
+    USERS ||--o{ ORDERS : "places (buyer_id)"
+    USERS ||--o{ CART_ITEMS : "has (user_id)"
+    USERS ||--o{ REVIEWS : "writes (user_id)"
+    ORDERS ||--|{ ORDER_ITEMS : "contains (order_id)"
+    PRODUCTS ||--o{ ORDER_ITEMS : "ordered as (product_id)"
+    PRODUCTS ||--o{ CART_ITEMS : "added as (product_id)"
+    PRODUCTS ||--o{ REVIEWS : "receives (product_id)"
 
     USERS {
         BIGINT id PK
         VARCHAR name
         VARCHAR email UK
-        VARCHAR password\_hash
+        VARCHAR password_hash
         VARCHAR role "BUYER | SELLER | ADMIN"
-        TIMESTAMP created\_at
+        TIMESTAMP created_at
     }
     PRODUCTS {
         BIGINT id PK
-        BIGINT seller\_id FK
+        BIGINT seller_id FK
         VARCHAR name
         CLOB description
         DECIMAL price
-        INT stock\_qty
+        INT stock_qty
         VARCHAR category
-        VARCHAR image\_url
-        TIMESTAMP created\_at
+        VARCHAR image_url
+        TIMESTAMP created_at
     }
     ORDERS {
         BIGINT id PK
-        BIGINT buyer\_id FK
+        BIGINT buyer_id FK
         VARCHAR status "PENDING | CONFIRMED | SHIPPED | DELIVERED | CANCELLED"
-        DECIMAL total\_amount
-        TIMESTAMP created\_at
+        DECIMAL total_amount
+        TIMESTAMP created_at
     }
-    ORDER\_ITEMS {
+    ORDER_ITEMS {
         BIGINT id PK
-        BIGINT order\_id FK
-        BIGINT product\_id FK
+        BIGINT order_id FK
+        BIGINT product_id FK
         INT quantity
-        DECIMAL unit\_price
+        DECIMAL unit_price
     }
-    CART\_ITEMS {
+    CART_ITEMS {
         BIGINT id PK
-        BIGINT user\_id FK
-        BIGINT product\_id FK
+        BIGINT user_id FK
+        BIGINT product_id FK
         INT quantity
-        TIMESTAMP created\_at
+        TIMESTAMP created_at
     }
     REVIEWS {
         BIGINT id PK
-        BIGINT product\_id FK
-        BIGINT user\_id FK
+        BIGINT product_id FK
+        BIGINT user_id FK
         INT rating "1 to 5"
         VARCHAR comment
-        TIMESTAMP created\_at
+        TIMESTAMP created_at
     }
 ```
 
@@ -73,11 +73,11 @@ Actors and use cases map to feature requirements F1 to F8. The Admin account is 
 
 ```mermaid
 flowchart LR
-    Buyer(\[Buyer])
-    Seller(\[Seller])
-    Admin(\[Admin])
+    Buyer([Buyer])
+    Seller([Seller])
+    Admin([Admin])
 
-    subgraph CrownMart\["CrownMart System"]
+    subgraph CrownMart["CrownMart System"]
         direction TB
         UC1(Register / Login - F1)
         UC2(Browse products - F3)
@@ -135,7 +135,7 @@ sequenceDiagram
         F->>S: doPost(request, response)
         S->>SV: placeOrder(userId)
         SV->>CD: findByUserId(userId)
-        CD->>DB: SELECT \* FROM cart\_items WHERE user\_id = ?
+        CD->>DB: SELECT * FROM cart_items WHERE user_id = ?
         DB-->>CD: cart rows
         CD-->>SV: List of CartItem
         alt Cart is empty
@@ -143,18 +143,18 @@ sequenceDiagram
             S-->>Buyer: Error message (cart is empty)
         else Cart has items
             SV->>PD: findById(productId) for each item
-            PD->>DB: SELECT \* FROM products WHERE id = ?
-            DB-->>PD: product row (price, stock\_qty)
+            PD->>DB: SELECT * FROM products WHERE id = ?
+            DB-->>PD: product row (price, stock_qty)
             PD-->>SV: Product
-            SV->>SV: Check stock, compute total\_amount
+            SV->>SV: Check stock, compute total_amount
             SV->>OD: begin transaction, insert order
-            OD->>DB: INSERT INTO orders (buyer\_id, status, total\_amount, created\_at)
+            OD->>DB: INSERT INTO orders (buyer_id, status, total_amount, created_at)
             DB-->>OD: generated order id
-            OD->>DB: INSERT INTO order\_items (order\_id, product\_id, quantity, unit\_price)
+            OD->>DB: INSERT INTO order_items (order_id, product_id, quantity, unit_price)
             SV->>PD: decrementStock(productId, qty)
-            PD->>DB: UPDATE products SET stock\_qty = stock\_qty - ? WHERE id = ?
+            PD->>DB: UPDATE products SET stock_qty = stock_qty - ? WHERE id = ?
             SV->>CD: clearCart(userId)
-            CD->>DB: DELETE FROM cart\_items WHERE user\_id = ?
+            CD->>DB: DELETE FROM cart_items WHERE user_id = ?
             SV->>DB: commit
             DB-->>SV: OK
             SV-->>S: Order (id, status, total)
