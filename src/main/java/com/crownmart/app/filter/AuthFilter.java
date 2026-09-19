@@ -28,6 +28,7 @@ import com.crownmart.app.model.User;
         "/products/create",
         "/products/edit",
         "/products/delete",
+        "/reviews/*",
         "/admin/*"
 })
 public class AuthFilter implements Filter {

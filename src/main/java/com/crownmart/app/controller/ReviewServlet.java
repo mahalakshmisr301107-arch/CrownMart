@@ -29,7 +29,12 @@ public class ReviewServlet extends BaseServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-        User user = (User) session.getAttribute(AuthFilter.SESSION_USER_ATTR);
+        User user = session == null ? null : (User) session.getAttribute(AuthFilter.SESSION_USER_ATTR);
+
+        if (user == null) {
+            response.sendRedirect(request.getContextPath() + "/login?redirectReason=auth");
+            return;
+        }
 
         long productId;
         int rating;
