@@ -1,0 +1,24 @@
+package com.crownmart.app.controller;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.crownmart.app.model.Product;
+
+@WebServlet(urlPatterns = {""})
+public class HomeServlet extends BaseServlet {
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        List<Product> featuredProducts = productService.findAll();
+
+        request.setAttribute("featuredProducts", featuredProducts);
+        request.getRequestDispatcher("/index.jsp").forward(request, response);
+    }
+}
