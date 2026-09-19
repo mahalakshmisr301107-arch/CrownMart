@@ -10,35 +10,34 @@
     <title>CrownMart</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #fdf6f8;
+            --bg: #f7f4ec;
             --surface: #ffffff;
-            --surface-hover: #fbeef2;
-            --border: #f3d9e2;
-            --border-strong: #e8b9cb;
-            --primary: #d88bb0;
-            --primary-hover: #c56f9a;
-            --primary-light: #fbeef4;
-            --teal: #8fb9a8;
-            --teal-light: #eef7f2;
-            --lavender: #b6a6d6;
-            --lavender-light: #f3effa;
-            --text: #4a3b45;
-            --text-muted: #8a7a86;
-            --text-faint: #b3a3ad;
-            --success-bg: #eef7f0;
-            --success-border: #bfe3c9;
-            --success-text: #3f8a56;
-            --error-bg: #fdeef0;
-            --error-border: #f0bfc9;
-            --error-text: #b8536b;
-            --radius: 12px;
-            --radius-sm: 8px;
-            --shadow-sm: 0 1px 3px rgba(184, 140, 165, 0.10);
-            --shadow-md: 0 4px 14px rgba(184, 140, 165, 0.14);
-            --shadow-lg: 0 14px 36px rgba(184, 140, 165, 0.18);
+            --surface-hover: #f0ece0;
+            --border: #e3ddcc;
+            --border-strong: #d1c8ae;
+            --primary: #3e5641;
+            --primary-hover: #2d4030;
+            --primary-light: #e7ede6;
+            --terracotta: #c1743f;
+            --terracotta-light: #f6e9dd;
+            --gold: #d9a441;
+            --text: #24261f;
+            --text-muted: #6b6a5c;
+            --text-faint: #9a9884;
+            --success-bg: #eef4ea;
+            --success-border: #c2d9b5;
+            --success-text: #3c6b2e;
+            --error-bg: #fbeeea;
+            --error-border: #e6bfa9;
+            --error-text: #a4482a;
+            --radius: 6px;
+            --radius-sm: 4px;
+            --shadow-sm: 0 1px 2px rgba(36, 38, 31, 0.06);
+            --shadow-md: 0 4px 14px rgba(36, 38, 31, 0.09);
+            --shadow-lg: 0 16px 40px rgba(36, 38, 31, 0.14);
         }
         * { box-sizing: border-box; }
         body {
@@ -50,15 +49,12 @@
             -webkit-font-smoothing: antialiased;
         }
         header {
-            background: var(--surface);
-            padding: 16px 32px;
+            background: var(--bg);
+            padding: 20px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            z-index: 50;
         }
         header a {
             color: var(--text-muted);
@@ -70,26 +66,33 @@
             font-size: 14px;
             transition: all 0.15s ease;
         }
-        header a:hover { color: var(--text); background: var(--surface-hover); }
+        header a:hover { color: var(--text); }
         header .brand {
-            font-size: 20px;
-            font-weight: 800;
-            margin-right: 32px;
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 21px;
+            font-weight: 700;
+            margin-right: 28px;
             color: var(--text);
-            letter-spacing: -0.02em;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
         }
         header .brand::before {
-            content: "";
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            border-radius: 3px;
-            background: linear-gradient(135deg, var(--primary), var(--lavender));
-            margin-right: 8px;
+            content: "C";
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: #fff;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 16px;
+            margin-right: 10px;
         }
+        .tagline { color: var(--text-faint); font-size: 14px; margin-right: auto; }
         main { max-width: 1100px; margin: 32px auto; padding: 0 20px; }
         .card {
             background: var(--surface);
@@ -127,7 +130,7 @@
         }
         input, select, textarea {
             width: 100%;
-            padding: 11px 12px;
+            padding: 12px 14px;
             margin: 6px 0 14px;
             box-sizing: border-box;
             border: 1px solid var(--border-strong);
@@ -136,40 +139,39 @@
             color: var(--text);
             font-family: inherit;
             font-size: 14px;
-            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+            transition: border-color 0.15s ease;
         }
         input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px var(--primary-light);
         }
         label { font-weight: 600; font-size: 12.5px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
         button, .btn {
             background: var(--primary);
             color: #ffffff;
             border: none;
-            padding: 11px 22px;
+            padding: 12px 22px;
             border-radius: var(--radius-sm);
             cursor: pointer;
             font-size: 14px;
             font-weight: 600;
             text-decoration: none;
             display: inline-block;
-            transition: background 0.15s ease, transform 0.1s ease;
+            transition: background 0.15s ease;
             font-family: inherit;
         }
         button:hover, .btn:hover { background: var(--primary-hover); }
-        button:active, .btn:active { transform: scale(0.98); }
         table { width: 100%; border-collapse: collapse; }
         th {
             text-align: left;
             padding: 10px 12px;
             border-bottom: 2px solid var(--border);
-            font-size: 12px;
+            font-size: 11.5px;
             text-transform: uppercase;
-            letter-spacing: 0.04em;
+            letter-spacing: 0.06em;
             color: var(--text-muted);
-            font-weight: 600;
+            font-weight: 700;
+            font-family: 'Space Mono', monospace;
         }
         td { text-align: left; padding: 12px; border-bottom: 1px solid var(--border); font-size: 14.5px; }
         .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 20px; }
@@ -177,133 +179,54 @@
         .price { font-weight: 700; color: var(--text); font-size: 18px; }
         .price::before { content: "\20B9"; font-weight: 600; margin-right: 1px; opacity: 0.7; }
 
-        h1, h2, h3 { letter-spacing: -0.02em; font-weight: 700; }
+        h1, h2, h3 { font-family: 'Playfair Display', Georgia, serif; font-weight: 700; }
 
         .icon-sm { width: 16px; height: 16px; display: inline-block; vertical-align: middle; }
         .icon-lg { width: 26px; height: 26px; display: block; margin: 0 auto 10px; color: var(--primary); }
 
-        .hero {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 56px;
-            padding: 72px 20px;
-            flex-wrap: wrap;
-        }
-        .hero-content { flex: 1 1 440px; max-width: 580px; }
         .eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            color: var(--primary-hover);
-            background: var(--primary-light);
-            font-size: 12.5px;
+            display: inline-block;
+            color: var(--terracotta);
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
             font-weight: 700;
-            letter-spacing: 0.02em;
-            padding: 6px 12px;
-            border-radius: 999px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
             margin-bottom: 20px;
         }
         .hero-title {
-            font-size: 48px;
+            font-size: 54px;
             line-height: 1.1;
-            font-weight: 800;
+            font-weight: 700;
             color: var(--text);
-            margin: 0 0 18px;
-        }
-        .hero-title .accent {
-            background: linear-gradient(135deg, var(--primary), var(--lavender));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            margin: 0 0 20px;
         }
         .hero-subtitle {
             font-size: 17px;
+            font-family: 'Inter', sans-serif;
             color: var(--text-muted);
             line-height: 1.65;
             margin-bottom: 30px;
             max-width: 480px;
         }
-        .hero-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+        .hero-actions { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
         .btn-outline {
-            background: var(--surface);
-            color: var(--text);
-            border: 1px solid var(--border-strong);
-            padding: 11px 22px;
-            border-radius: var(--radius-sm);
+            background: transparent;
+            color: var(--primary);
+            border: none;
+            padding: 12px 0;
             text-decoration: none;
             font-weight: 600;
             font-size: 14px;
-            transition: all 0.15s ease;
             display: inline-flex;
             align-items: center;
             gap: 6px;
         }
-        .btn-outline:hover { border-color: var(--text-muted); background: var(--surface-hover); }
-
-        .hero-visual {
-            position: relative;
-            width: 320px;
-            height: 340px;
-            flex-shrink: 0;
-        }
-        .hero-card {
-            position: absolute;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
-        }
-        .hero-card-back {
-            background: linear-gradient(135deg, var(--lavender), var(--primary));
-            width: 240px; height: 300px;
-            top: 30px; left: 60px;
-            opacity: 0.20;
-        }
-        .hero-card-front {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            width: 280px; height: 320px;
-            top: 0; left: 20px;
-            padding: 26px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .hero-card-front .tag {
-            color: var(--teal);
-            background: var(--teal-light);
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
-            padding: 5px 10px;
-            border-radius: 999px;
-            display: inline-block;
-            width: fit-content;
-        }
-        .hero-card-front .headline {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--text);
-            line-height: 1.35;
-        }
-        .hero-card-front .caption { color: var(--text-muted); font-size: 13px; }
-
-        .stats-bar {
-            display: flex;
-            gap: 40px;
-            flex-wrap: wrap;
-            padding: 28px 20px;
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 40px;
-        }
-        .stat-item { display: flex; flex-direction: column; }
-        .stat-number { font-size: 26px; font-weight: 800; color: var(--text); }
-        .stat-label { font-size: 13px; color: var(--text-muted); }
+        .btn-outline:hover { color: var(--primary-hover); }
 
         .section-heading { display: flex; align-items: baseline; justify-content: space-between; margin: 48px 0 20px; flex-wrap: wrap; gap: 8px; }
-        .section-heading h2 { font-size: 24px; margin: 0; }
-        .section-heading a { color: var(--primary-hover); font-size: 14px; font-weight: 600; text-decoration: none; }
+        .section-heading h2 { font-size: 26px; margin: 0; }
+        .section-heading a { color: var(--primary); font-size: 14px; font-weight: 600; text-decoration: none; }
 
         .category-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; margin-bottom: 8px; }
         .category-tile {
@@ -318,13 +241,16 @@
             font-size: 14px;
             transition: all 0.15s ease;
         }
-        .category-tile:hover { border-color: var(--primary); box-shadow: var(--shadow-sm); transform: translateY(-2px); }
+        .category-tile:hover { border-color: var(--primary); box-shadow: var(--shadow-sm); }
     </style>
 </head>
 <body>
 <header>
     <div style="display:flex; align-items:center;">
         <a href="<c:url value='/'/>" class="brand">CrownMart</a>
+        <span class="tagline">Marketplace</span>
+    </div>
+    <div style="display:flex; align-items:center;">
         <%
             User navUser = (session == null) ? null : (User) session.getAttribute(AuthFilter.SESSION_USER_ATTR);
             if (navUser != null) {
@@ -339,17 +265,12 @@
         <% if (navUser.getRole().name().equals("ADMIN")) { %>
         <a href="<c:url value='/admin/dashboard'/>">Admin Dashboard</a>
         <% } %>
+            <span class="muted" style="margin:0 14px;">Hi, <c:out value="<%= navUser.getName() %>"/></span>
+            <a href="<c:url value='/logout'/>" style="border:1px solid var(--border-strong); border-radius:var(--radius-sm);">Log out</a>
         <% } else { %>
         <a href="<c:url value='/products'/>">Browse</a>
-        <% } %>
-    </div>
-    <div>
-        <% if (navUser != null) { %>
-            <span class="muted" style="margin-right:14px;">Hi, <c:out value="<%= navUser.getName() %>"/> &middot; <%= navUser.getRole() %></span>
-            <a href="<c:url value='/logout'/>">Log out</a>
-        <% } else { %>
-            <a href="<c:url value='/login'/>">Log in</a>
-            <a href="<c:url value='/register'/>" class="btn" style="margin-left:8px;">Sign up</a>
+        <a href="<c:url value='/login'/>" style="border:1px solid var(--border-strong); border-radius:var(--radius-sm); margin-left:8px;">Log in</a>
+        <a href="<c:url value='/register'/>" class="btn" style="margin-left:8px;">Join</a>
         <% } %>
     </div>
 </header>
