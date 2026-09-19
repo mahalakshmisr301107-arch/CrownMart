@@ -13,30 +13,32 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #f8fafc;
+            --bg: #fdf6f8;
             --surface: #ffffff;
-            --surface-hover: #f1f5f9;
-            --border: #e2e8f0;
-            --border-strong: #cbd5e1;
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --primary-light: #eff6ff;
-            --teal: #0d9488;
-            --teal-light: #f0fdfa;
-            --text: #0f172a;
-            --text-muted: #64748b;
-            --text-faint: #94a3b8;
-            --success-bg: #f0fdf4;
-            --success-border: #bbf7d0;
-            --success-text: #15803d;
-            --error-bg: #fef2f2;
-            --error-border: #fecaca;
-            --error-text: #b91c1c;
-            --radius: 10px;
-            --radius-sm: 6px;
-            --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
-            --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
-            --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.12);
+            --surface-hover: #fbeef2;
+            --border: #f3d9e2;
+            --border-strong: #e8b9cb;
+            --primary: #d88bb0;
+            --primary-hover: #c56f9a;
+            --primary-light: #fbeef4;
+            --teal: #8fb9a8;
+            --teal-light: #eef7f2;
+            --lavender: #b6a6d6;
+            --lavender-light: #f3effa;
+            --text: #4a3b45;
+            --text-muted: #8a7a86;
+            --text-faint: #b3a3ad;
+            --success-bg: #eef7f0;
+            --success-border: #bfe3c9;
+            --success-text: #3f8a56;
+            --error-bg: #fdeef0;
+            --error-border: #f0bfc9;
+            --error-text: #b8536b;
+            --radius: 12px;
+            --radius-sm: 8px;
+            --shadow-sm: 0 1px 3px rgba(184, 140, 165, 0.10);
+            --shadow-md: 0 4px 14px rgba(184, 140, 165, 0.14);
+            --shadow-lg: 0 14px 36px rgba(184, 140, 165, 0.18);
         }
         * { box-sizing: border-box; }
         body {
@@ -85,7 +87,7 @@
             width: 10px;
             height: 10px;
             border-radius: 3px;
-            background: linear-gradient(135deg, var(--primary), var(--teal));
+            background: linear-gradient(135deg, var(--primary), var(--lavender));
             margin-right: 8px;
         }
         main { max-width: 1100px; margin: 32px auto; padding: 0 20px; }
@@ -193,7 +195,7 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            color: var(--primary);
+            color: var(--primary-hover);
             background: var(--primary-light);
             font-size: 12.5px;
             font-weight: 700;
@@ -210,7 +212,7 @@
             margin: 0 0 18px;
         }
         .hero-title .accent {
-            background: linear-gradient(135deg, var(--primary), var(--teal));
+            background: linear-gradient(135deg, var(--primary), var(--lavender));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -251,10 +253,10 @@
             box-shadow: var(--shadow-lg);
         }
         .hero-card-back {
-            background: linear-gradient(135deg, var(--teal), var(--primary));
+            background: linear-gradient(135deg, var(--lavender), var(--primary));
             width: 240px; height: 300px;
             top: 30px; left: 60px;
-            opacity: 0.15;
+            opacity: 0.20;
         }
         .hero-card-front {
             background: var(--surface);
@@ -301,7 +303,7 @@
 
         .section-heading { display: flex; align-items: baseline; justify-content: space-between; margin: 48px 0 20px; flex-wrap: wrap; gap: 8px; }
         .section-heading h2 { font-size: 24px; margin: 0; }
-        .section-heading a { color: var(--primary); font-size: 14px; font-weight: 600; text-decoration: none; }
+        .section-heading a { color: var(--primary-hover); font-size: 14px; font-weight: 600; text-decoration: none; }
 
         .category-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; margin-bottom: 8px; }
         .category-tile {
