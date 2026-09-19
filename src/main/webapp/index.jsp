@@ -40,7 +40,7 @@
 </div>
 <div class="product-grid">
     <c:forEach var="product" items="${featuredProducts}" varStatus="loop" end="7">
-        <div class="card">
+        <a href="<c:url value='/products/view'><c:param name='id' value='${product.id}'/></c:url>" class="card" style="color:inherit; text-decoration:none; display:block;">
             <div style="height:150px; background:var(--surface-hover); border-radius:var(--radius-sm); margin-bottom:14px; display:flex; align-items:center; justify-content:center; overflow:hidden;">
                 <c:choose>
                     <c:when test="${not empty product.imageUrl}">
@@ -54,7 +54,7 @@
             <div class="muted" style="font-family:'Space Mono', monospace; text-transform:uppercase; font-size:11px; margin-bottom:6px;">${product.category}</div>
             <div style="font-weight:600; margin-bottom:8px;"><c:out value="${product.name}"/></div>
             <div class="price">${product.price}</div>
-        </div>
+        </a>
     </c:forEach>
     <c:if test="${empty featuredProducts}">
         <p class="muted">No products listed yet.</p>
