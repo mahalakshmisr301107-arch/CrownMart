@@ -43,11 +43,11 @@
 </div>
 
 <div class="section-heading">
-    <h2>Recently listed</h2>
+    <h2>All products</h2>
     <a href="<c:url value='/products'/>">Browse everything</a>
 </div>
 <div class="product-grid">
-    <c:forEach var="product" items="${featuredProducts}" varStatus="loop" end="7">
+    <c:forEach var="product" items="${featuredProducts}">
         <a href="<c:url value='/products/view'><c:param name='id' value='${product.id}'/></c:url>" class="card" style="color:inherit; text-decoration:none; display:block;">
             <div style="height:150px; background:var(--surface-hover); border-radius:var(--radius-sm); margin-bottom:14px; display:flex; align-items:center; justify-content:center; overflow:hidden;">
                 <c:choose>
