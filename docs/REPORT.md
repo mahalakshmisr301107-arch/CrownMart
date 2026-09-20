@@ -17,3 +17,20 @@
 6. **Chatbot safety.** The server limits input to 500 characters and 10 messages per minute per session. The system prompt is fixed on the server. The API key is only in an environment variable, never in code.
 7. **Automatic tests and CI.** 51 unit tests (JUnit 5 and Mockito) check the main logic, including the chatbot. GitHub Actions runs `mvn -B clean verify` with Java 17 on every push and pull request.
 8. **Docker on Render.** Every push to main deploys the site automatically.
+## Architecture
+
+CrownMart uses a layered design. Each layer has one job.
+
+1. **Filters** (`EncodingFilter`, `AuthFilter`) run before the servlets. `AuthFilter` checks the login. The chat and health endpoints are public.
+2. **Controllers** are servlets in the `controller` package, for example `ProductServlet`, `CartServlet`, `CheckoutServlet`, `LoginServlet` and `ChatServlet`. They read the request and choose the page or JSON answer.
+3. **Services** hold the business rules: `UserService`, `ProductService`, `CartService`, `OrderService` and `ReviewService`.
+4. **DAOs** talk to the database with JDBC: `UserDao`, `ProductDao`, `CartDao`, `OrderDao` and `ReviewDao`.
+5. **Database:** H2, with connections from one HikariCP pool. `DataSourceListener` creates the pool when the app starts.
+6. **Views** are JSP pages in `WEB-INF/views`. They use JSTL and one shared header and footer.
+7. **Chat module** is in the `chat` package: `ChatService` (rules, cache, rate limit) and a `ChatProvider` (mock or Gemini).
+
+Other packages: `model` (data classes), `dto`, `exception` and `util`.
+
+Request flow: Browser, then Filters, then Servlet, then Service, then DAO, then H2. The servlet then sends the result to a JSP page.
+
+Diagrams are in `docs/DIAGRAMS.md`: D1 ER diagram, D2 Use Case diagram, D3 Sequence diagram (Place Order).
