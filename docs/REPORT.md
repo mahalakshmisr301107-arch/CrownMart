@@ -34,3 +34,22 @@ Other packages: `model` (data classes), `dto`, `exception` and `util`.
 Request flow: Browser, then Filters, then Servlet, then Service, then DAO, then H2. The servlet then sends the result to a JSP page.
 
 Diagrams are in `docs/DIAGRAMS.md`: D1 ER diagram, D2 Use Case diagram, D3 Sequence diagram (Place Order).
+
+## ER Diagram
+
+The database has 6 tables, created by `schema.sql`:
+
+| Table | Purpose |
+|-------|---------|
+| `users` | Buyers, sellers and admins. The role is BUYER, SELLER or ADMIN. The email is unique. |
+| `products` | Products listed by sellers. Each product has a `seller_id`. |
+| `orders` | Orders placed by buyers. Status is PENDING, CONFIRMED, SHIPPED, DELIVERED or CANCELLED. |
+| `order_items` | The products inside each order. |
+| `cart_items` | The products a user has in the cart. |
+| `reviews` | Product reviews written by users. |
+
+Main relations: one user can sell many products, place many orders, have many cart items and write many reviews. One order contains many order items. One product can appear in many order items, cart items and reviews.
+
+Money fields use `DECIMAL(10,2)` and every foreign key is indexed.
+
+The full diagram is section D1 in `docs/DIAGRAMS.md`. GitHub shows it as a picture.
