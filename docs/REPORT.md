@@ -6,4 +6,14 @@
 2. **Cache and rate-limit data are in memory only.** They are lost when the server restarts. They are not shared between many servers.
 3. **The mock chatbot uses keywords only.** It is not a real conversation. Its answers are written by hand, so we must update them if the site pages change.
 4. **The Gemini provider is not tested with the live API.** Unit tests check only the response parsing. Model names may change over time.
-5. **Render free tier has cold starts.** The first request after idle can take about a minute. The H2 database also goes back to seed data on every restart.
+5. **Render free tier has cold starts.** The first request after idle can take about a minute. The disk is temporary, so the H2 database file is lost and goes back to seed data on every restart.
+## Technical Decisions
+
+1. **Servlet, JSP and JDBC, no big framework.** The course is about the basics of Java web development. Plain servlets make the request flow easy to see and explain.
+2. **H2 database with HikariCP.** H2 is small and needs no separate server. It is a file database (`./data/crownmart`). HikariCP gives a fast shared connection pool. Only one class, `DataSourceListener`, creates connections.
+3. **Simple database setup with two SQL files.** `schema.sql` runs at every start and uses `CREATE TABLE IF NOT EXISTS`, so it is safe to repeat. `seed.sql` runs only when the users table is empty, so real data is not overwritten. The file `db/migrations/V1__init_schema.sql` is a versioned record of the schema for developers. The app does not run it.
+4. **Passwords use jBCrypt.** Passwords are stored as hashes, never as plain text.
+5. **AI chatbot with a provider interface.** `ChatProvider` has two versions: a keyword-based mock and a Gemini version. A factory chooses one from a setting. If the Gemini key is missing, the site uses the mock, so it never breaks.
+6. **Chatbot safety.** The server limits input to 500 characters and 10 messages per minute per session. The system prompt is fixed on the server. The API key is only in an environment variable, never in code.
+7. **Automatic tests and CI.** 51 unit tests (JUnit 5 and Mockito) check the main logic, including the chatbot. GitHub Actions runs `mvn -B clean verify` with Java 17 on every push and pull request.
+8. **Docker on Render.** Every push to main deploys the site automatically.
