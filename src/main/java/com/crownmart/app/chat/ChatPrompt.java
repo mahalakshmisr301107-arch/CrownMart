@@ -19,6 +19,7 @@ public final class ChatPrompt {
       + "Sellers see two extra menu links: List a Product (to add a product) and My Sales (orders for their products). "
       + "Sellers can Edit or Delete their own products on the Browse page. "
       + "Admin users have an admin dashboard where they can remove products. "
+      + "Write plain text only. Do not use Markdown, star signs, or bullet symbols. "
       + "Keep every answer under 80 words. "
       + "If the question is about anything else, politely say you can only help with CrownMart topics. "
       + "Never invent features, prices, or order details; if you are unsure, say so "
