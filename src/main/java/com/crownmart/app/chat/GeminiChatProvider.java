@@ -96,7 +96,7 @@ public class GeminiChatProvider implements ChatProvider {
         contents.add(content);
 
         JsonObject config = new JsonObject();
-        config.addProperty("maxOutputTokens", 400);
+        config.addProperty("maxOutputTokens", 1024);
         config.addProperty("temperature", 0.3);
 
         JsonObject body = new JsonObject();
