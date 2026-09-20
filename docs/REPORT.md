@@ -1,12 +1,15 @@
 # CrownMart Final Report
 
-## Known Limitations
+## Introduction
 
-1. **Rate limiting is per HTTP session.** If a user deletes cookies, they get a new session and a new limit. We can make it stronger with an IP-based limit.
-2. **Cache and rate-limit data are in memory only.** They are lost when the server restarts. They are not shared between many servers.
-3. **The mock chatbot uses keywords only.** It is not a real conversation. Its answers are written by hand, so we must update them if the site pages change.
-4. **The Gemini provider is not tested with the live API.** Unit tests check only the response parsing. Model names may change over time.
-5. **Render free tier has cold starts.** The first request after idle can take about a minute. The disk is temporary, so the H2 database file is lost and goes back to seed data on every restart.
+CrownMart is a multi-seller online marketplace. Sellers list products. Buyers browse, add to cart, place orders and write reviews. Admins can see a dashboard and remove products. The site also has an AI chatbot that answers questions about how to use the site.
+
+This is the Anna University R2025 Semester 3 capstone project.
+
+- **Stack:** Java 17, Maven, Tomcat 9 (Servlet, JSP, JSTL), JDBC, H2, HikariCP, jBCrypt, SLF4J/Logback, Gson, JUnit 5 and Mockito.
+- **Code:** https://github.com/mahalakshmisr301107-arch/CrownMart
+- **Live site:** https://crownmart.onrender.com (the first request after idle can take about a minute)
+
 ## Technical Decisions
 
 1. **Servlet, JSP and JDBC, no big framework.** The course is about the basics of Java web development. Plain servlets make the request flow easy to see and explain.
@@ -53,3 +56,11 @@ Main relations: one user can sell many products, place many orders, have many ca
 Money fields use `DECIMAL(10,2)` and every foreign key is indexed.
 
 The full diagram is section D1 in `docs/DIAGRAMS.md`. GitHub shows it as a picture.
+
+## Known Limitations
+
+1. **Rate limiting is per HTTP session.** If a user deletes cookies, they get a new session and a new limit. We can make it stronger with an IP-based limit.
+2. **Cache and rate-limit data are in memory only.** They are lost when the server restarts. They are not shared between many servers.
+3. **The mock chatbot uses keywords only.** It is not a real conversation. Its answers are written by hand, so we must update them if the site pages change.
+4. **The Gemini provider is not tested with the live API.** Unit tests check only the response parsing. Model names may change over time.
+5. **Render free tier has cold starts.** The first request after idle can take about a minute. The disk is temporary, so the H2 database file is lost and goes back to seed data on every restart.
