@@ -67,7 +67,7 @@ The full diagram is section D1 in `docs/DIAGRAMS.md`. GitHub shows it as a pictu
 | DAO (database code) | `JdbcUserDaoTest`, `JdbcProductDaoTest`, `JdbcOrderDaoTest` | 8 |
 | Services | `UserServiceTest`, `OrderServiceTest`, `ReviewServiceTest` | 12 |
 
-**Manual tests on the live site.** These flows passed: login, add to cart, checkout, order history, review, seller create/edit/delete product, My Sales, admin dashboard and product removal, custom 404 page, and the health endpoint `/api/v1/health`. The chatbot rate limit was also tested live: messages 1 to 10 were accepted, and messages 11 and 12 returned HTTP 429.
+**Manual tests on the live site.** These flows passed: login, add to cart, checkout, order history, review, seller create/edit/delete product, My Sales, admin dashboard and product removal, new buyer registration, logout, redirect to login for protected pages, home page featured products, the chat button on the Login and Cart pages, live Gemini chatbot answers, custom 404 page, and the health endpoint `/api/v1/health`. The chatbot rate limit was also tested live: messages 1 to 10 were accepted, and messages 11 and 12 returned HTTP 429.
 
 ## Known Limitations
 
