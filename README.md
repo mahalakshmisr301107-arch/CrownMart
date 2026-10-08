@@ -1,11 +1,11 @@
 # CrownMart
 
-A multi-seller online marketplace built with Java Servlets, JSP and JDBC. Independent sellers list products, buyers browse, add to cart and place orders, and an admin moderates the marketplace.
+A multi-seller online marketplace built with Java Servlets, JSP and JDBC. Independent sellers list products, buyers browse, add to cart and place orders, and an admin moderates the marketplace. An AI chatbot answers questions about using the site.
 
 **Live demo:** https://crownmart.onrender.com
-(Hosted on Render's free tier. The first request after a period of inactivity can take about 30 seconds to wake up.)
+(Hosted on Render's free tier. The first request after a period of inactivity can take about a minute to wake up.)
 
-**Release:** [v1.0.0](https://github.com/mahalakshmisr301107-arch/CrownMart/releases/tag/v1.0.0) — Full Build + Deploy checkpoint
+**Release:** [v1.1.0](https://github.com/mahalakshmisr301107-arch/CrownMart/releases/tag/v1.1.0), AI chatbot (Final Review). Earlier: [v1.0.0](https://github.com/mahalakshmisr301107-arch/CrownMart/releases/tag/v1.0.0), Full Build + Deploy checkpoint.
 
 Anna University R2025, Semester 3 capstone project.
 
@@ -24,6 +24,7 @@ Small independent sellers often have no simple, affordable place to list their g
 | Orders | Buyers see their order history with status and line items |
 | Reviews | Buyers review products from completed orders |
 | Admin | Dashboard listing users, products and orders; remove any listing |
+| AI chatbot | Floating chat widget that answers questions about buying, selling, reviews and orders |
 | Errors | Custom 404 and 500 pages |
 
 ## Screenshots
@@ -52,9 +53,10 @@ Small independent sellers often have no simple, affordable place to list their g
 | Web | Servlets, JSP, JSTL (Tomcat 9) |
 | Database | H2 with HikariCP connection pool |
 | Security | jBCrypt password hashing, AuthFilter for role checks |
+| AI chatbot | Google Gemini API behind a `ChatProvider` interface, with a mock provider |
 | Logging | SLF4J and Logback |
 | Build | Maven |
-| Tests | JUnit 5 (DAO and service layer) |
+| Tests | JUnit 5 (DAO, service and chatbot tests) |
 | CI/CD | GitHub Actions, Docker, Render |
 
 ## Architecture
@@ -66,8 +68,21 @@ The app follows a layered structure:
 - **DAO** (JDBC): all database access, using `PreparedStatement` exclusively.
 - **View** (JSP and JSTL): pages under `WEB-INF/views`, sharing a common header and footer.
 - **Filter**: `AuthFilter` protects cart, checkout, orders, reviews, seller and admin routes by role.
+- **Chat**: `ChatServlet` (`/api/v1/chat`) validates input and calls `ChatService`, which applies a per-session rate limit and cache, then asks a `ChatProvider`. The provider is chosen by `ChatProviderFactory`.
 
 Diagrams (ER, use case, sequence) are in [docs/DIAGRAMS.md](docs/DIAGRAMS.md).
+
+## AI chatbot
+
+The chatbot answers questions about using CrownMart. The provider is selected by configuration, so the site never depends on one implementation:
+
+| Setting | Meaning |
+|---|---|
+| `AI_CHATBOT_PROVIDER` | `gemini` for the real API, `mock` for built-in answers (default) |
+| `GEMINI_API_KEY` | API key, stored server-side only, never in client code |
+| `GEMINI_MODEL` | Gemini model name |
+
+If the Gemini call fails or times out, the service returns safe fallback text instead of an error page. See [.env.example](.env.example).
 
 ## Database migrations
 
@@ -100,7 +115,7 @@ All accounts use the password `crownmart123`.
 - Passwords are hashed with bcrypt, never stored in plain text.
 - Role-based access is enforced server-side by `AuthFilter` on cart, checkout, orders, reviews, seller and admin routes.
 - User-supplied values are escaped in JSP output with `<c:out>`.
-- Credentials and config files (`*.properties`, `.env`) are excluded from version control.
+- Credentials and config files (`*.properties`, `.env`) are excluded from version control. The Gemini key is kept in server-side configuration only.
 - Custom 404 and 500 error pages, so stack traces are never exposed to the client.
 - All SQL statements use `PreparedStatement`; no string-concatenated queries.
 
@@ -108,8 +123,18 @@ All accounts use the password `crownmart123`.
 
 - The database is H2 on Render's free tier, so data resets to the seed data when the service restarts.
 - Payment is a mock step. No real payment gateway is connected.
-- Test coverage includes DAO and service-layer unit tests (20 tests total). Servlet-level tests are not yet included.
+- Chatbot rate limit and cache are kept in memory per session and reset when the server restarts.
+- Test coverage includes DAO, service and chatbot unit tests (51 tests). Servlet-level tests are not yet included.
+- See [docs/REPORT.md](docs/REPORT.md) for the full list of known limitations.
+
+## Documentation
+
+- [Final report](docs/REPORT.md)
+- [Design diagrams](docs/DIAGRAMS.md)
+- [Demo script](docs/DEMO_SCRIPT.md)
+- [Contributing guide](CONTRIBUTING.md)
+- [Changelog](CHANGELOG.md)
 
 ## Project status
 
-The full build and deploy checkpoint (Sep 21, 2026) is complete: all core features (F1–F8), live deployment, CI, security checklist, migrations, and design diagrams are in place. The AI chatbot is planned for the final review on Oct 10, 2026.
+All core features (F1–F8), live deployment, CI, security checklist, migrations and design diagrams were completed for the Sep 21, 2026 checkpoint. The AI chatbot is integrated and live for the Final Review on Oct 10, 2026.
