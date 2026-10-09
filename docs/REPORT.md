@@ -37,7 +37,14 @@ Other packages: `model` (data classes), `dto`, `exception` and `util`.
 Request flow: Browser, then Filters, then Servlet, then Service, then DAO, then H2. The servlet then sends the result to a JSP page.
 
 Diagrams are in `docs/DIAGRAMS.md`: D1 ER diagram, D2 Use Case diagram, D3 Sequence diagram (Place Order).
+## Design Patterns Used
 
+- **DAO:** all database code is in the dao package (UserDao, ProductDao, OrderDao and so on).
+- **Front Controller:** each page has its own servlet, and AuthFilter checks every protected request first.
+- **Singleton:** the database connection pool is created once in DataSourceListener.
+- **Factory:** ChatProviderFactory chooses the Gemini or Mock chatbot provider from a setting.
+
+Not used: the Strategy and Builder patterns. We did not need them for this project.
 ## ER Diagram
 
 The database has 6 tables, created by `schema.sql`:

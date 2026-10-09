@@ -1,4 +1,9 @@
 # Changelog
+## [1.1.0] - 2026-10-05
+### Added
+- AI chatbot: floating chat widget, ChatServlet, Gemini provider with mock fallback
+- Rate limit, answer cache and fallback text for the chatbot
+- Final report, demo script and design diagrams
 
 ## [1.0.0] - 2026-09-21
 ### Added
